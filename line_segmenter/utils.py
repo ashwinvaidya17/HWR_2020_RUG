@@ -19,7 +19,7 @@ def rotate_angle(img,angle):
 def horizontal_projections(sobel_image):
     return np.sum(sobel_image, axis=1)
 
-def find_peak_regions(hpp, divider=8):
+def find_peak_regions(hpp, divider=5):
     threshold = (np.max(hpp)-np.min(hpp))/divider
     peaks = []
     peaks_index = []
@@ -103,7 +103,7 @@ def get_road_block_regions(nmap1):
     needtobreak = False
     for col in range(nmap1.shape[1]):
         start = col
-        end = col+10
+        end = col+25
         if end > nmap1.shape[1]-1:
             end = nmap1.shape[1]-1
             needtobreak = True
