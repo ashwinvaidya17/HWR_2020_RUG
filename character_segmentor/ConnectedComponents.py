@@ -8,10 +8,8 @@ import tqdm
 
 
 def segment_lines(docs_path, image_name, output_path, lines):
-    print(image_name)
     save_loc = output_path + '/' + lines + \
         "/{:04d}/".format(int(image_name.split('.')[0]))
-    print(save_loc)
     os.makedirs(save_loc, exist_ok=True)
     original_image = cv2.imread(os.path.join(
         docs_path, lines, image_name), cv2.IMREAD_GRAYSCALE)
