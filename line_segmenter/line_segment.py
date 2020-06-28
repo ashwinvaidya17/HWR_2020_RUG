@@ -11,20 +11,25 @@ import os
 import time
 import argparse
 import shutil
+import tqdm
 
-def  run(img,folder_name,curr_dir):
+
+def  run(img_name,folder_name,curr_dir):
     if folder_name in os.listdir():
         try:
             shutil.rmtree(folder_name)
         except OSError as e:
             print(f"Error:{e}")
+
+    print(f"folder_name:{folder_name}")
+    os.chdir(curr_dir)
+
     if not folder_name.split('/')[-1] in os.listdir(folder_name.split('/')[0]):
         os.mkdir(folder_name)
     else:
         shutil.rmtree(folder_name)
         os.mkdir(folder_name)
 
-    os.chdir(curr_dir)
     # variables
     start=time.time()
     max_hpp_lst=[]
@@ -32,15 +37,16 @@ def  run(img,folder_name,curr_dir):
     peak_index_lst=[]
 
     # read image and show
-    img=cv2.imread(img)
-    width=720 #width=img.shape[0]/4
-    height=630 #height=img.shape[1]/4
-    img=cv2.resize(img,(int(width),int(height)))
+    img=cv2.imread(img_name)
+    #width=720 #width=img.shape[0]/4
+    #height=630 #height=img.shape[1]/4
+    #img=cv2.resize(img,(int(width),int(height)))
     img_gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     img_gray=cv2.bitwise_not(img_gray)
     thresh=cv2.threshold(img_gray,0,255,cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
+
     # compute rotation and find best suitable angle
-    for angle in np.arange(-10,10,0.1):
+    for angle in tqdm.tqdm(np.arange(-10,10,0.1)):
         rotated=rotate_angle(img,angle)
         # compute hpp
         hpp,peak,peak_index=compute_hpp(rotated)
@@ -79,27 +85,26 @@ def  run(img,folder_name,curr_dir):
     binary_image = get_binary(cv2.cvtColor(new_rotated,cv2.COLOR_BGR2GRAY))
     # remove cluster with one value
     hpp_clusters=[cluster for cluster in hpp_clusters if len(cluster)!=1]
-    for cluster_of_interest in hpp_clusters:
+    for cluster_of_interest in tqdm.tqdm(hpp_clusters):
         nmap = binary_image[cluster_of_interest[0]:cluster_of_interest[len(cluster_of_interest)-1],:]
         # find regions with intersections
         road_blocks = get_road_block_regions(nmap)
         road_blocks_cluster_groups = group_the_road_blocks(road_blocks)
         #create the doorways
-        for index, road_blocks in enumerate(road_blocks_cluster_groups):
+        for index, road_blocks in tqdm.tqdm(enumerate(road_blocks_cluster_groups)):
             window_image = nmap[:, road_blocks[0]: road_blocks[1]+10]
             binary_image[cluster_of_interest[0]:cluster_of_interest[len(cluster_of_interest)-1],:][:, road_blocks[0]: road_blocks[1]+10][int(window_image.shape[0]/2),:] *= 0
 
     #now that everything is cleaner, its time to segment all the lines using the A* algorithm
     line_segments = []
 
-    for i, cluster_of_interest in enumerate(hpp_clusters):
+    for i, cluster_of_interest in tqdm.tqdm(enumerate(hpp_clusters)):
         nmap = binary_image[cluster_of_interest[0]:cluster_of_interest[len(cluster_of_interest)-1],:]
         path = np.array(astar(nmap, (int(nmap.shape[0]/2), 0), (int(nmap.shape[0]/2),nmap.shape[1]-1)))
         offset_from_top = cluster_of_interest[0]
-        #print(f"Path length:{len(path)}")
         if not len(path)==0:
             path[:,0] += offset_from_top
-        line_segments.append(path)
+            line_segments.append(path)
 
     offset_from_top = cluster_of_interest[0]
     fig, ax = plt.subplots(figsize=(20,10), ncols=2)
@@ -116,6 +121,5 @@ def  run(img,folder_name,curr_dir):
     line_segments.append(last_bottom_row)
 
     get_line_segments(cv2.cvtColor(new_rotated,cv2.COLOR_BGR2GRAY),line_segments,folder_name)
-
     end=time.time()
-    print(f"total time for line segmentation: {end-start}")
+    print(f"total time for line segmentation image {img_name} : {end-start}")
