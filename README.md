@@ -8,4 +8,4 @@ Code for Handwriting Recognition Course 2020 RUG
 python3 main.py --image path\to\image
 
 ### Example
-python3 main.py --image test_images/P21-Fg006-R-C01-R01-binarized.jpg
+python3 main.py --image test_images/
