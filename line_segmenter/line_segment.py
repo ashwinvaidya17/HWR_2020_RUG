@@ -20,8 +20,7 @@ def  run(img_name,folder_name,curr_dir):
             shutil.rmtree(folder_name)
         except OSError as e:
             print(f"Error:{e}")
-
-    print(f"folder_name:{folder_name}")
+            
     os.chdir(curr_dir)
 
     if not folder_name.split('/')[-1] in os.listdir(folder_name.split('/')[0]):
