@@ -8,6 +8,8 @@ import os
 import operator
 import random
 import argparse
+import time
+
 
 output_save_path = ''
 input_path = ''
@@ -26,7 +28,7 @@ def get_match_scores(search_image, threshold=0.52):
     match_scores = {}
     for label in categories:
         match_scores[label] = []
-    for label in tqdm.tqdm(categories):
+    for label in categories:
         # Take first n images
         for path in glob.glob(character_image_path+label+'/*.pgm'):
             template = cv2.imread(path, 0)
@@ -110,10 +112,10 @@ def recursive_splitting(img, recursion_depth, area_ratio, image_index, search_th
         unique_counter += 1
         return
 
-    print("Getting match scores")
+    # print("Getting match scores")
     match_scores = get_match_scores(img, search_threshold)
 #     print(match_scores)
-    print("Found %s matches" % len(match_scores))
+    # print("Found %s matches" % len(match_scores))
     if len(match_scores.values()) == 0:
         return
 
@@ -199,24 +201,25 @@ def iterate_over_characters(input_path, character_images_path):
     global character_image_path
     character_image_path = character_images_path
     categories = os.listdir(character_image_path)
-    for docs in os.listdir(input_path):
-        print(docs)
-        for line_character_folders in os.listdir(os.path.join(input_path, docs)):
-            for input_image_path in tqdm.tqdm(glob.glob(os.path.join(input_path, docs,  line_character_folders)+"/*.jpg")):
-                input_character_image = cv2.imread(input_image_path, 0)
-                orig_x, orig_y = input_character_image.shape
-                # Based on experiments. If the ratio is greater then it is assumed that the segemented image is a combination
-                if (orig_y/orig_x) < 1.2:
-                    continue
-                unique_counter = 1
-                output_save_path = os.path.join(
-                    input_path, docs, line_character_folders)
-                # todo change path for linux
-                image_index = int(input_image_path.split('.')
-                                  [0].split('\\')[-1])
-                os.makedirs(output_save_path, exist_ok=True)
-                recursive_splitting(input_character_image, 1, 0, image_index)
-                os.remove(input_image_path)
+    start = time.process_time()
+    for line_character_folders in os.listdir(os.path.join(input_path)):
+        print("Computing for line", line_character_folders)
+        for input_image_path in tqdm.tqdm(glob.glob(os.path.join(input_path,  line_character_folders)+"/*.jpg")):
+            input_character_image = cv2.imread(input_image_path, 0)
+            orig_x, orig_y = input_character_image.shape
+            # Based on experiments. If the ratio is greater then it is assumed that the segemented image is a combination
+            if (orig_y/orig_x) < 1.2:
+                continue
+            unique_counter = 1
+            output_save_path = os.path.join(
+                input_path, line_character_folders)
+            # todo change path for linux
+            image_index = int(input_image_path.split('.')
+                              [0].split('\\')[-1])
+            os.makedirs(output_save_path, exist_ok=True)
+            recursive_splitting(input_character_image, 1, 0, image_index)
+            os.remove(input_image_path)
+    print("Time taken", time.process_time() - start)
 
 
 if __name__ == "__main__":

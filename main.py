@@ -8,7 +8,7 @@ if __name__ == "__main__":
     # ----------------------------- line segmentation -----------------------------------------------
     arg = argparse.ArgumentParser()
     arg.add_argument('--image', metavar='I', type=str,
-                     help="enter the image path")
+                     help="enter the image path", required=True)
     img_parase = arg.parse_args()
     img_path = img_parase.image
     print(f"------------------------------>> Line segmentation <<------------------------------------")
@@ -18,14 +18,13 @@ if __name__ == "__main__":
     for img in os.listdir(img_path):
         split1 = img.split('.')
         line_segment.run(img_path+"/"+img, "lines/"+split1[0], curr_dir)
-
-    os.chdir(curr_dir)
-    print("# Line segmentation completed #")
+        os.chdir(curr_dir)
+        print("# Line segmentation completed #")
+        print(f"------------------------------>> character segmentation <<------------------------------------")
+        ConnectedComponents.iterate_over_folders(os.path.join(
+            os.getcwd(), 'lines', split1[0]), os.path.join(os.getcwd(), 'segmented_characters'), split1[0])
+        template_matching.iterate_over_characters(os.path.join(
+            os.getcwd(), 'segmented_characters', split1[0]), os.path.join(os.getcwd(), 'character_images/Images/'))
+        print("# Completed Character Segmentation")
 
     # -------------------------- character segmentation -------------------------------------------
-    print(f"------------------------------>> character segmentation <<------------------------------------")
-    ConnectedComponents.iterate_over_folders(os.path.join(
-        os.getcwd(), 'lines'), os.path.join(os.getcwd(), 'segmented_characters'))
-    template_matching.iterate_over_characters(os.path.join(
-        os.getcwd(), 'segmented_characters/'), os.path.join(os.getcwd(), 'character_images/Images/'))
-    print("# Completed Character Segmentation")
