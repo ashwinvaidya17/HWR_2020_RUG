@@ -77,14 +77,16 @@ def save_final_preprocess(r_folder, s_folder, l_name):
 
 
 def main():
-    read_path = "character_images"
+    read_path = os.getcwd()
+    read_path = os.path.split(read_path)[0]
+    read_path = os.path.join(read_path, "character_images")
     read_folder = os.path.join(read_path, "Images")
     save_folder = os.path.join(read_path, "Images_first_preprocess")
 
     # if folder does not exit then create "Images_first_preprocess" for final pre-processing
     if not os.path.exists(save_folder):
         os.mkdir(save_folder)
-
+    exit()
     # classes names
     label_name = (
         "Alef", "Ayin", "Bet", "Dalet", "Gimel", "He", "Het", "Kaf", "Kaf-final", "Lamed", "Mem", "Mem-medial",
@@ -93,7 +95,9 @@ def main():
 
     save_first_preprocess(read_folder, save_folder, label_name)
 
-    read_path = "character_images"
+    read_path = os.getcwd()
+    read_path = os.path.split(read_path)[0]
+    read_path = os.path.join(read_path, "character_images")
     read_folder = os.path.join(read_path, "Images_first_preprocess")
     save_folder = os.path.join(read_path, "Images_final_preprocess")
 
