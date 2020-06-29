@@ -20,7 +20,7 @@ if __name__ == "__main__":
         line_segment.run(img_path+"/"+img, "lines/"+split1[0], curr_dir)
 
     os.chdir(curr_dir)
-    print("# Line segmentation completed #")
+    print(f"# Line segmentation completed for image :{str(img)}#")
 
     # -------------------------- character segmentation -------------------------------------------
     print(f"------------------------------>> character segmentation <<------------------------------------")
