@@ -22,8 +22,10 @@ def pre_process_image(img):
 
 def delete_previous_output():
     read_file = "output"
-    filelist = os.listdir(read_file)
+    if not os.path.exists(read_file):
+        os.mkdir(read_file)
 
+    filelist = os.listdir(read_file)
     if len(filelist) != 0:
         for files in filelist:
             os.remove(os.path.join(read_file, files))
