@@ -9,4 +9,4 @@ opencv-python
 glob3
 statistics
 keras==2.2.4
-tensorflow==2.0.0
+tensorflow
