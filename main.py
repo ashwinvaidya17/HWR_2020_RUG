@@ -18,7 +18,7 @@ if __name__ == "__main__":
     if not "lines" in os.listdir():
         os.mkdir("lines")
     if "lines" in os.listdir():
-        shutil.remove("lines")
+        shutil.rmtree("lines")
         os.mkdir("lines")
         
     for img in os.listdir(img_path):
