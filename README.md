@@ -26,7 +26,7 @@ Make sure that the pip has been upgraded so that latest version on tensorflow is
 `pip3 install --upgrade pip`
 
 Then install the requirements
-`pip install -r requirements.txt`
+`pip3 install -r requirements.txt`
 
 ## Commands
 
