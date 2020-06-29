@@ -3,6 +3,7 @@ import os
 import shutil
 import argparse
 from character_segmentor import ConnectedComponents, template_matching
+from character_recognition import recognise_hebrew_chars
 
 if __name__ == "__main__":
     # ----------------------------- line segmentation -----------------------------------------------
@@ -29,3 +30,6 @@ if __name__ == "__main__":
         template_matching.iterate_over_characters(os.path.join(
             os.getcwd(), 'segmented_characters/'), os.path.join(os.getcwd(), 'character_images/Images/'))
         print(f"# Completed Character Segmentation for image :{str(img)}")
+
+    # -------------------------- character Recognition -------------------------------------------
+    recognise_hebrew_chars.charRecog_main()
