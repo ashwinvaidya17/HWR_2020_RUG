@@ -97,7 +97,11 @@ def main():
     loss = "categorical_crossentropy"
     hidden_activation = "relu"
     epochs = 50
-    data_dir = "character_images/Images_final_preprocess"
+
+    read_path = os.getcwd()
+    read_path = os.path.split(read_path)[0]
+    read_path = os.path.join(read_path, "character_images")
+    data_dir = os.path.join(read_path, "Images_final_preprocess")
 
     label_name = (
         "Alef", "Ayin", "Bet", "Dalet", "Gimel", "He", "Het", "Kaf", "Kaf-final", "Lamed", "Mem", "Mem-medial",
