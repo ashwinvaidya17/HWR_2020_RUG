@@ -17,6 +17,10 @@ if __name__ == "__main__":
     curr_dir = os.getcwd()
     if not "lines" in os.listdir():
         os.mkdir("lines")
+    if "lines" in os.listdir():
+        shutil.remove("lines")
+        os.mkdir("lines")
+        
     for img in os.listdir(img_path):
         split1 = img.split('.')
         line_segment.run(img_path+"/"+img, "lines/"+split1[0], curr_dir)
