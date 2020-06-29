@@ -1,3 +1,5 @@
+# Line segmentation part ------------------
+
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
@@ -14,7 +16,13 @@ import shutil
 import tqdm
 
 
+""" main run of the line segmentation part
+img_name --> input image
+folder_name --> name of the output folder
+current directory --> path of the main python file
+"""
 def  run(img_name,folder_name,curr_dir):
+    # preprossing  -----------------------------------
     if folder_name in os.listdir():
         try:
             shutil.rmtree(folder_name)
@@ -118,7 +126,8 @@ def  run(img_name,folder_name,curr_dir):
     #plt.show()
     last_bottom_row = np.flip(np.column_stack(((np.ones((new_rotated.shape[1],))*new_rotated.shape[0]), np.arange(new_rotated.shape[1]))).astype(int), axis=0)
     line_segments.append(last_bottom_row)
-
+    
+    # Generate the segmented images from the line segments
     get_line_segments(cv2.cvtColor(new_rotated,cv2.COLOR_BGR2GRAY),line_segments,folder_name)
     end=time.time()
     print(f"total time for line segmentation image {img_name} : {end-start}")
