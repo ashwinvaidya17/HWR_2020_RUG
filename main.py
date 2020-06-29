@@ -3,8 +3,10 @@ import os
 import shutil
 import argparse
 from character_segmentor import ConnectedComponents, template_matching
+from character_recognition import recognise_hebrew_chars
 
 if __name__ == "__main__":
+    recognise_hebrew_chars.delete_previous_output()
     # ----------------------------- line segmentation -----------------------------------------------
     arg = argparse.ArgumentParser()
     arg.add_argument('--image', metavar='I', type=str,
@@ -15,15 +17,24 @@ if __name__ == "__main__":
     curr_dir = os.getcwd()
     if not "lines" in os.listdir():
         os.mkdir("lines")
+    if "lines" in os.listdir():
+        shutil.rmtree("lines")
+        os.mkdir("lines")
+        
     for img in os.listdir(img_path):
         split1 = img.split('.')
         line_segment.run(img_path+"/"+img, "lines/"+split1[0], curr_dir)
-        os.chdir(curr_dir)
         print(f"# Line segmentation completed for image :{str(img)}#")
-        print("# Line segmentation completed #")
+        os.chdir(curr_dir)
+        
         print(f"------------------------------>> character segmentation <<------------------------------------")
         ConnectedComponents.iterate_over_folders(os.path.join(
             os.getcwd(), 'lines', split1[0]), os.path.join(os.getcwd(), 'segmented_characters'), split1[0])
         template_matching.iterate_over_characters(os.path.join(
             os.getcwd(), 'segmented_characters', split1[0]), os.path.join(os.getcwd(), 'character_images/Images/'))
         print("# Completed Character Segmentation")
+
+        # -------------------------- character Recognition -------------------------------------------
+        print(f"------------------------------>> character recognition <<------------------------------------")
+        recognise_hebrew_chars.charRecog_main(split1[0])
+        print("# Completed Character Recognition")
