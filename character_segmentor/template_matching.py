@@ -42,6 +42,8 @@ def get_match_scores(search_image, threshold=0.52):
             x_ratio = (int)(scale_ratio*template_y)
             if x_ratio > search_image_y:
                 x_ratio = search_image_y
+            if x_ratio <= 0 or y_ratio <= 0:
+                continue
             template = cv2.resize(
                 template, (x_ratio, y_ratio), interpolation=cv2.INTER_AREA)
 
@@ -148,6 +150,8 @@ def recursive_splitting(img, recursion_depth, area_ratio, image_index, search_th
         x_ratio = (int)(scale_ratio*template_y)
         if x_ratio > search_image_y:
             x_ratio = search_image_y
+        if x_ratio <= 0 or y_ratio <= 0:
+            continue
         template = cv2.resize(
             template, (x_ratio, y_ratio), interpolation=cv2.INTER_AREA)
 
@@ -196,6 +200,7 @@ def iterate_over_characters(input_path, character_images_path):
     character_image_path = character_images_path
     categories = os.listdir(character_image_path)
     for docs in os.listdir(input_path):
+        print(docs)
         for line_character_folders in os.listdir(os.path.join(input_path, docs)):
             for input_image_path in tqdm.tqdm(glob.glob(os.path.join(input_path, docs,  line_character_folders)+"/*.jpg")):
                 input_character_image = cv2.imread(input_image_path, 0)
