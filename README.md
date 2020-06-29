@@ -20,6 +20,14 @@ Authors:
 The full code piplines is in the main.py code.
 The **lines** generated folder contains the segmented lines. The **segmented_characters** generated folder contains contains the characters which are segmented from the lines.
 
+## Pre-requisites
+---
+Make sure that the pip has been upgraded so that latest version on tensorflow is installed. Also ensure that your are using Python 3.
+`pip3 install --upgrade pip`
+
+Then install the requirements
+`pip install -r requirements.txt`
+
 ## Commands
 
 ---
