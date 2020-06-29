@@ -49,7 +49,7 @@ def charRecog_main(test_file):
         i = 0
         # iterate through each character segmented files
         for filename in files:
-            img_test = cv2.imread(f"{subdir}\\{filename}", 0)
+            img_test = cv2.imread(f"{subdir}/{filename}", 0)
             img_height, img_width = img_test.shape[0], img_test.shape[1]
             img_test = pre_process_image(img_test)
             # if the ratio of height / width is < 0.23 then the image is noise
