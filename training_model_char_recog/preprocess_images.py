@@ -77,9 +77,9 @@ def save_final_preprocess(r_folder, s_folder, l_name):
 
 
 def main():
-    read_path = "character_images"
+    read_path = "character_images/"
     read_folder = read_path + "Images"
-    save_path = "character_images"
+    save_path = "character_images/"
     save_folder = save_path + "Images_first_preprocess"
 
     # if folder does not exit then create "Images_first_preprocess" for final pre-processing
@@ -94,9 +94,9 @@ def main():
 
     save_first_preprocess(read_folder, save_folder, label_name)
 
-    read_path = "character_images"
+    read_path = "character_images/"
     read_folder = read_path + "Images_first_preprocess"
-    save_path = "character_images"
+    save_path = "character_images/"
     save_folder = save_path + "Images_final_preprocess"
 
     # if folder does not exit then create "Images_final_preprocess" for final pre-processing
