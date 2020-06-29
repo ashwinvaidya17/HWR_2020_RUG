@@ -10,7 +10,7 @@ Authors:
 
 - Hari Vidharth - s4031180
 - Krishnakumar Santhakumar - s4035992
-- Dhawal Salvi -
+- Dhawal Salvi - s4107624
 - Ashwin Vaidya - s3911888
 
 ## General Overview
