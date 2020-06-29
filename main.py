@@ -26,7 +26,7 @@ if __name__ == "__main__":
         line_segment.run(img_path+"/"+img, "lines/"+split1[0], curr_dir)
         os.chdir(curr_dir)
         print(f"# Line segmentation completed for image :{str(img)}#")
-        print("# Line segmentation completed #")
+        
         print(f"------------------------------>> character segmentation <<------------------------------------")
         ConnectedComponents.iterate_over_folders(os.path.join(
             os.getcwd(), 'lines', split1[0]), os.path.join(os.getcwd(), 'segmented_characters'), split1[0])
