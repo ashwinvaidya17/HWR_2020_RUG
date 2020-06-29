@@ -24,8 +24,8 @@ if __name__ == "__main__":
     for img in os.listdir(img_path):
         split1 = img.split('.')
         line_segment.run(img_path+"/"+img, "lines/"+split1[0], curr_dir)
-        os.chdir(curr_dir)
         print(f"# Line segmentation completed for image :{str(img)}#")
+        os.chdir(curr_dir)
         
         print(f"------------------------------>> character segmentation <<------------------------------------")
         ConnectedComponents.iterate_over_folders(os.path.join(
