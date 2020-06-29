@@ -4,6 +4,7 @@ import shutil
 import argparse
 from character_segmentor import ConnectedComponents, template_matching
 from character_recognition import recognise_hebrew_chars
+from style_classification.styleClassificationTest import styleClassification
 
 if __name__ == "__main__":
     recognise_hebrew_chars.delete_previous_output()
@@ -38,3 +39,7 @@ if __name__ == "__main__":
         print(f"------------------------------>> character recognition <<------------------------------------")
         recognise_hebrew_chars.charRecog_main(split1[0])
         print("# Completed Character Recognition")
+
+        print(f"------------------------------>> style classification <<------------------------------------")
+        styleClassification(path_to_char_recog_model="./models/HR_char_recognition.h5", path_to_segmented_images="./segmented_characters", document_name=split1[0])
+        print("# Completed Style Classification")
