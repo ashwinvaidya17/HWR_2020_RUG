@@ -1,3 +1,4 @@
+
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
@@ -8,6 +9,10 @@ from skimage.util import invert
 from heapq import *
 import os
 
+""" roate the image to predicted angle 
+img --> image file
+angle --> predicted angle 
+"""
 def rotate_angle(img,angle):
     (h, w) = img.shape[:2]
     center = (w // 2, h // 2)
@@ -15,19 +20,11 @@ def rotate_angle(img,angle):
     rotated = cv2.warpAffine(img, M, (w, h),flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
     return rotated
 
-
+# computing horizontal projection on the edge detected image
 def horizontal_projections(sobel_image):
     return np.sum(sobel_image, axis=1)
 
-def find_peak_regions(hpp, divider=5):
-    threshold = (np.max(hpp)-np.min(hpp))/divider
-    peaks = []
-    peaks_index = []
-    for i, hppv in enumerate(hpp):
-        if hppv < threshold:
-            peaks.append([i, hppv])
-    return peaks
-
+# computing the horizontal projection profile
 def compute_hpp(img):
     # by edge detection
     img_gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -38,7 +35,7 @@ def compute_hpp(img):
 
     return hpp,peaks,peaks_index
 
-
+# computing the horizontal projection profile with segmented image show
 def compute_hpp_with_seg(img):
     img_gray=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     sobel_image=sobel(img_gray)
@@ -55,6 +52,17 @@ def compute_hpp_with_seg(img):
 
     plt.show()
     return hpp,peaks,peaks_index
+
+# find peaks of horizontal projection profile
+def find_peak_regions(hpp, divider=5):
+    threshold = (np.max(hpp)-np.min(hpp))/divider
+    peaks = []
+    peaks_index = []
+    for i, hppv in enumerate(hpp):
+        if hppv < threshold:
+            peaks.append([i, hppv])
+    return peaks
+
 
 ################################ line segmentation part ##############################################
 #group the peaks into walking windows
@@ -75,6 +83,7 @@ def get_hpp_walking_regions(peaks_index):
 
     return hpp_clusters
 
+# get the binary image 
 def get_binary(img):
     mean = np.mean(img)
     if mean == 0.0 or mean == 1.0:
@@ -98,6 +107,7 @@ def path_exists(window_image):
 
     return False
 
+# find the intersecting lines 
 def get_road_block_regions(nmap1):
     road_blocks = []
     needtobreak = False
@@ -186,6 +196,8 @@ def astar(array, start, goal):
                 heappush(oheap, (fscore[neighbor], neighbor))
     return []
 
+
+# line extraction from the input image
 def extract_line_from_image(image, lower_line, upper_line):
     #print(f"upper line:{upper_line}")
     #print(f"lower line:{lower_line}")
@@ -199,6 +211,7 @@ def extract_line_from_image(image, lower_line, upper_line):
 
     return img_copy[lower_boundary:upper_boundary, :]
 
+# seperate the lines segments into seperate images and store
 def get_line_segments(img,line_segments,folder_name):
     os.chdir(folder_name)
     line_images = []
@@ -214,6 +227,7 @@ def get_line_segments(img,line_segments,folder_name):
     #plt.savefig("line_seg_out.jpg")
     #plt.show()
 
+# view the single line segment (reference)
 def view_single_line_seg():
     cluster_of_interest = hpp_clusters[1]
     offset_from_top = cluster_of_interest[0]
