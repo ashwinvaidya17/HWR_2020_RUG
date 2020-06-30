@@ -9,10 +9,10 @@ def avg_dim(read_path):
     width = []
     # iterate through each files append height and width then take average
     for filename in os.listdir(read_path):
-        if filename.endswith(".jpg"):
-            img = cv2.imread(f"{read_path}/{filename}", -1)
-            height.append(int(img.shape[0]))
-            width.append(int(img.shape[1]))
+        #if filename.endswith(".jpg"):
+        img = cv2.imread(f"{read_path}/{filename}", -1)
+        height.append(int(img.shape[0]))
+        width.append(int(img.shape[1]))
     w = int(statistics.median(width))
     h = int(statistics.median(height))
     return w, h
@@ -27,15 +27,15 @@ def save_first_preprocess(r_folder, s_folder, l_name):
         os.mkdir(f"{s_folder}/{l}")
         i = 0
         for filename in os.listdir(read_path):
-            if filename.endswith(".jpg"):
-                i = i + 1
-                # read image
-                img = cv2.imread(f"{read_path}/{filename}", -1)
-                # resize with the dim
-                img = cv2.resize(img, dim)
-                save_path = os.path.join(s_folder, l)
-                # write the image
-                cv2.imwrite(f"{save_path}/{l}_{i}.jpg", img)
+            #if filename.endswith(".jpg"):
+            i = i + 1
+            # read image
+            img = cv2.imread(f"{read_path}/{filename}", -1)
+            # resize with the dim
+            img = cv2.resize(img, dim)
+            save_path = os.path.join(s_folder, l)
+            # write the image
+            cv2.imwrite(f"{save_path}/{l}_{i}.jpg", img)
 
 
 # functions that saves the resized image in the folder "Images_final_preprocess"
@@ -68,12 +68,12 @@ def save_final_preprocess(r_folder, s_folder, l_name):
         i = 0
         # iterate through each files
         for filename in os.listdir(read_path):
-            if filename.endswith(".jpg"):
-                i = i + 1
-                img = cv2.imread(f"{read_path}/{filename}", -1)
-                img = cv2.resize(img, dim)
-                save_path = os.path.join(s_folder, l)
-                cv2.imwrite(f"{save_path}/{l}_{i}.jpg", img)
+            #if filename.endswith(".jpg"):
+            i = i + 1
+            img = cv2.imread(f"{read_path}/{filename}", -1)
+            img = cv2.resize(img, dim)
+            save_path = os.path.join(s_folder, l)
+            cv2.imwrite(f"{save_path}/{l}_{i}.jpg", img)
 
 
 def delete_dir(folder):
@@ -102,6 +102,8 @@ def main():
     delete_dir(save_folder)
     # if folder does not exit then create "Images_first_preprocess" for final pre-processing
     create_dir(save_folder)
+    print(f"1 read_folder: {read_folder}")
+    print(f"1 save_folder: {save_folder}")
     save_first_preprocess(read_folder, save_folder, label_name)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -115,6 +117,8 @@ def main():
     delete_dir(save_folder)
     # if folder does not exit then create "Images_final_preprocess" for final pre-processing
     create_dir(save_folder)
+    print(f"2 read_folder: {read_folder}")
+    print(f"2 save_folder: {save_folder}")
     save_final_preprocess(read_folder, save_folder, label_name)
 
 

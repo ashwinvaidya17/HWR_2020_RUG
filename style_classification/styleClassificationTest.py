@@ -26,6 +26,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.models import load_model
 
 def styleClassification(path_to_char_recog_model, path_to_segmented_images, document_name):
+    
     config = tf.compat.v1.ConfigProto(allow_soft_placement=True, log_device_placement=True,
                                       device_count={'GPU': 0, 'CPU': 10})
     sess = tf.compat.v1.Session(config=config)
@@ -33,8 +34,7 @@ def styleClassification(path_to_char_recog_model, path_to_segmented_images, docu
 
     cr = load_model(path_to_char_recog_model)
 
-    test = os.listdir(path_to_segmented_images)
-
+    test = os.listdir(path_to_segmented_images+'/'+document_name)
     classes = []
 
     test_class = (
@@ -45,10 +45,10 @@ def styleClassification(path_to_char_recog_model, path_to_segmented_images, docu
         "Yod", "Zayin")
 
     for a in tqdm(test):
-        image = os.listdir(path_to_segmented_images + "/" + str(a))
+        image = os.listdir(path_to_segmented_images+'/'+document_name + "/" + str(a))
         for b in image:
             testimages = []
-            testimg = cv2.imread(path_to_segmented_images + "/" + str(a) + "/" + str(b), cv2.IMREAD_GRAYSCALE)
+            testimg = cv2.imread(path_to_segmented_images+'/'+document_name + "/" + str(a) + "/" + str(b), cv2.IMREAD_GRAYSCALE)
             img_height, img_width = testimg.shape[0], testimg.shape[1]
             testresized = cv2.resize(testimg, (32, 49), interpolation=cv2.INTER_LINEAR)
             testimages.append(testresized)
@@ -61,8 +61,7 @@ def styleClassification(path_to_char_recog_model, path_to_segmented_images, docu
                 if confidence > 25:
                     character = np.argmax(cr.predict(testimages), axis=-1)
                     character = test_class[character[0]]
-
-                    with open("./Models/" + str(character) + ".pkl", 'rb') as fid:
+                    with open("style_classification/Models/" + str(character) + ".pkl", 'rb') as fid:
                         clf = pickle.load(fid)
 
                     testimages = []
@@ -112,6 +111,6 @@ def styleClassification(path_to_char_recog_model, path_to_segmented_images, docu
     elif style == 2:
         decoderLabel = "Herodian"
 
-    f = open(str(document_name) + "StyleOutput.txt", "a")
+    f = open("output/"+str(document_name) + "StyleOutput.txt", "w")
     f.write(str(decoderLabel))
     f.close()
