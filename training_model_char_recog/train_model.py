@@ -94,6 +94,11 @@ def run_model(model, X, y, epochs):
 
 
 def main():
+    label_name = (
+        "Alef", "Ayin", "Bet", "Dalet", "Gimel", "He", "Het", "Kaf", "Kaf-final", "Lamed", "Mem", "Mem-medial",
+        "Nun-final", "Nun-medial", "Pe", "Pe-final", "Qof", "Resh", "Samekh", "Shin", "Taw", "Tet", "Tsadi-final",
+        "Tsadi-medial", "Waw", "Yod", "Zayin")
+
     loss = "categorical_crossentropy"
     hidden_activation = "relu"
     epochs = 50
@@ -102,11 +107,6 @@ def main():
     read_path = os.path.split(read_path)[0]
     read_path = os.path.join(read_path, "character_images")
     data_dir = os.path.join(read_path, "Images_final_preprocess")
-
-    label_name = (
-        "Alef", "Ayin", "Bet", "Dalet", "Gimel", "He", "Het", "Kaf", "Kaf-final", "Lamed", "Mem", "Mem-medial",
-        "Nun-final", "Nun-medial", "Pe", "Pe-final", "Qof", "Resh", "Samekh", "Shin", "Taw", "Tet", "Tsadi-final",
-        "Tsadi-medial", "Waw", "Yod", "Zayin")
 
     class_size = len(label_name)
     X, y = make_data(data_dir, label_name)
