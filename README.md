@@ -18,7 +18,10 @@ Authors:
 ---
 
 The full code piplines is in the main.py code.
-The **lines** generated folder contains the segmented lines. The **segmented_characters** generated folder contains contains the characters which are segmented from the lines.
+The test documents are given as the input one at a time, which then generates the **lines** folder which contains the segmented lines.
+The **segmented_characters** generated folder contains the characters which are segmented from the lines.
+The next part of the system uses the segmented images from the **segmented_characters** generated folder and using the saved model in the models folder to perform character recognition on the segmented images and the output is in the form of **document_name.txt** containing the transcribed text.
+The final part of the system also uses the segmented images from the **segmented_characters** generated folder and using the saved model in the Models folder to perform the style classification on the segmented images and the output is in the form of **document_name_StyleOutput.txt** containing the period/era text.
 
 ## Pre-requisites
 ---
@@ -48,4 +51,6 @@ To run the code follow the command and enter the folder which contains the image
 
 **character_segmentor** contains two scripts. The `ConnectedComponents.py` does a rough segmentation on an image of a line into characters and words. The `template_matching.py` script does template matching on the rough segmentation to get a more fine grained segmentation.
 
-**character_recognition** module contains script to recognize the segmented characters
+**character_recognition** module contains script to recognize the segmented characters.
+
+**style_classification** module contains styleClassificationTest script to perform the final period classification using the segmented characters.
