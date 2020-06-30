@@ -48,4 +48,6 @@ To run the code follow the command and enter the folder which contains the image
 
 **character_segmentor** contains two scripts. The `ConnectedComponents.py` does a rough segmentation on an image of a line into characters and words. The `template_matching.py` script does template matching on the rough segmentation to get a more fine grained segmentation.
 
-**character_recognition** module contains script to recognize the segmented characters
+**character_recognition** module contains script to recognize the segmented characters.
+
+**style_classification** module contains styleClassificationTest script to perform the final period classification using the segmented characters.
