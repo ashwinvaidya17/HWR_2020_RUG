@@ -27,15 +27,15 @@ def save_first_preprocess(r_folder, s_folder, l_name):
         os.mkdir(f"{s_folder}/{l}")
         i = 0
         for filename in os.listdir(read_path):
-            if filename.endswith(".jpg"):
-                i = i + 1
-                # read image
-                img = cv2.imread(f"{read_path}/{filename}", -1)
-                # resize with the dim
-                img = cv2.resize(img, dim)
-                save_path = os.path.join(s_folder, l)
-                # write the image
-                cv2.imwrite(f"{save_path}/{l}_{i}.jpg", img)
+            #if filename.endswith(".jpg"):
+            i = i + 1
+            # read image
+            img = cv2.imread(f"{read_path}/{filename}", -1)
+            # resize with the dim
+            img = cv2.resize(img, dim)
+            save_path = os.path.join(s_folder, l)
+            # write the image
+            cv2.imwrite(f"{save_path}/{l}_{i}.jpg", img)
 
 
 # functions that saves the resized image in the folder "Images_final_preprocess"
@@ -68,12 +68,12 @@ def save_final_preprocess(r_folder, s_folder, l_name):
         i = 0
         # iterate through each files
         for filename in os.listdir(read_path):
-            if filename.endswith(".jpg"):
-                i = i + 1
-                img = cv2.imread(f"{read_path}/{filename}", -1)
-                img = cv2.resize(img, dim)
-                save_path = os.path.join(s_folder, l)
-                cv2.imwrite(f"{save_path}/{l}_{i}.jpg", img)
+            #if filename.endswith(".jpg"):
+            i = i + 1
+            img = cv2.imread(f"{read_path}/{filename}", -1)
+            img = cv2.resize(img, dim)
+            save_path = os.path.join(s_folder, l)
+            cv2.imwrite(f"{save_path}/{l}_{i}.jpg", img)
 
 
 def delete_dir(folder):
