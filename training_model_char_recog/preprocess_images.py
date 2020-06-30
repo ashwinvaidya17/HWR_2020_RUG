@@ -76,35 +76,45 @@ def save_final_preprocess(r_folder, s_folder, l_name):
                 cv2.imwrite(f"{save_path}/{l}_{i}.jpg", img)
 
 
-def main():
-    read_path = os.getcwd()
-    read_path = os.path.split(read_path)[0]
-    read_path = os.path.join(read_path, "character_images")
-    read_folder = os.path.join(read_path, "Images")
-    save_folder = os.path.join(read_path, "Images_first_preprocess")
+def delete_dir(folder):
+    if os.path.exists(folder):
+        os.rmdir(folder)
 
-    # if folder does not exit then create "Images_first_preprocess" for final pre-processing
-    if not os.path.exists(save_folder):
-        os.mkdir(save_folder)
-    exit()
+
+def create_dir(folder):
+    if not os.path.exists(folder):
+        os.mkdir(folder)
+
+
+def main():
     # classes names
     label_name = (
         "Alef", "Ayin", "Bet", "Dalet", "Gimel", "He", "Het", "Kaf", "Kaf-final", "Lamed", "Mem", "Mem-medial",
         "Nun-final", "Nun-medial", "Pe", "Pe-final", "Qof", "Resh", "Samekh", "Shin", "Taw", "Tet", "Tsadi-final",
         "Tsadi-medial", "Waw", "Yod", "Zayin")
 
+    read_path = os.getcwd()
+    read_path = os.path.split(read_path)[0]
+    read_path = os.path.join(read_path, "character_images")
+    read_folder = os.path.join(read_path, "Images")
+    save_folder = os.path.join(read_path, "Images_first_preprocess")
+    # if folder does exit then delete "Images_first_preprocess" for final pre-processing
+    delete_dir(save_folder)
+    # if folder does not exit then create "Images_first_preprocess" for final pre-processing
+    create_dir(save_folder)
     save_first_preprocess(read_folder, save_folder, label_name)
+
+    # ------------------------------------------------------------------------------------------------------------------
 
     read_path = os.getcwd()
     read_path = os.path.split(read_path)[0]
     read_path = os.path.join(read_path, "character_images")
     read_folder = os.path.join(read_path, "Images_first_preprocess")
     save_folder = os.path.join(read_path, "Images_final_preprocess")
-
+    # if folder does exit then delete "Images_final_preprocess" for final pre-processing
+    delete_dir(save_folder)
     # if folder does not exit then create "Images_final_preprocess" for final pre-processing
-    if not os.path.exists(save_folder):
-        os.mkdir(save_folder)
-
+    create_dir(save_folder)
     save_final_preprocess(read_folder, save_folder, label_name)
 
 
