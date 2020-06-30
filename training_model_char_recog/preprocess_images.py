@@ -9,10 +9,10 @@ def avg_dim(read_path):
     width = []
     # iterate through each files append height and width then take average
     for filename in os.listdir(read_path):
-        if filename.endswith(".jpg"):
-            img = cv2.imread(f"{read_path}/{filename}", -1)
-            height.append(int(img.shape[0]))
-            width.append(int(img.shape[1]))
+        #if filename.endswith(".jpg"):
+        img = cv2.imread(f"{read_path}/{filename}", -1)
+        height.append(int(img.shape[0]))
+        width.append(int(img.shape[1]))
     w = int(statistics.median(width))
     h = int(statistics.median(height))
     return w, h
