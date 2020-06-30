@@ -102,6 +102,8 @@ def main():
     delete_dir(save_folder)
     # if folder does not exit then create "Images_first_preprocess" for final pre-processing
     create_dir(save_folder)
+    print(f"1 read_folder: {read_folder}")
+    print(f"1 save_folder: {save_folder}")
     save_first_preprocess(read_folder, save_folder, label_name)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -115,6 +117,8 @@ def main():
     delete_dir(save_folder)
     # if folder does not exit then create "Images_final_preprocess" for final pre-processing
     create_dir(save_folder)
+    print(f"2 read_folder: {read_folder}")
+    print(f"2 save_folder: {save_folder}")
     save_final_preprocess(read_folder, save_folder, label_name)
 
 
