@@ -17,7 +17,7 @@ Authors:
 
 ---
 
-The full code piplines is in the main.py code.
+The full code for the pipeline is in the main.py code.
 The test documents are given as the input one at a time, which then generates the **lines** folder which contains the segmented lines.
 The **segmented_characters** generated folder contains the characters which are segmented from the lines.
 The next part of the system uses the segmented images from the **segmented_characters** generated folder and using the saved model in the models folder to perform character recognition on the segmented images and the output is in the form of **document_name.txt** containing the transcribed text.
