@@ -66,7 +66,7 @@ def get_match_scores(search_image, threshold=0.52):
             print(e)
             print(label)
             print(match_scores)
-            exit()
+            return
         if match_scores[label] < threshold:
             match_scores.pop(label, None)
     return match_scores
